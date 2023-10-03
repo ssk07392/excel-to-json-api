@@ -34,7 +34,11 @@ def upload_file():
 
     if file and allowed_file(file.filename):
         # Save the uploaded file
-        filename = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+
+        #filename = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+        upload_dir = os.path.join(os.path.dirname(__file__),app.config['UPLOAD_FOLDER'])
+        # Then, you can use the full path to save the uploaded file
+        filename = os.path.join(upload_dir, file.filename)
         if os.path.exists(filename):
             # If the file exists, delete it
             os.remove(filename)
