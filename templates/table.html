@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Table</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Data Table</h1>
+    <table id="data-table">
+        <thead>
+            <tr id="table-headers">
+                <!-- JavaScript will populate the table headers here -->
+            </tr>
+        </thead>
+        <tbody>
+            <!-- JavaScript will populate the table rows here -->
+        </tbody>
+    </table>
+
+    <script>
+        // Your JSON data received from the server
+        var jsonData = {{ data|tojson|safe }};
+
+        // Function to create table headers
+        function createTableHeaders(data) {
+            var row = document.getElementById("table-headers");
+            for (var key in data[0]) {
+                var cell = document.createElement("th");
+                cell.textContent = key;
+                row.appendChild(cell);
+            }
+        }
+
+        // Function to create table rows
+        function createTableRow(data) {
+            var row = document.createElement("tr");
+            for (var key in data) {
+                var cell = document.createElement("td");
+                cell.textContent = data[key];
+                row.appendChild(cell);
+            }
+            return row;
+        }
+
+        // Get the table body element
+        var tableBody = document.querySelector("#data-table tbody");
+
+        // Populate the table with data
+        if (jsonData.length > 0) {
+            createTableHeaders(jsonData);
+            for (var i = 0; i < jsonData.length; i++) {
+                var rowData = jsonData[i];
+                var tableRow = createTableRow(rowData);
+                tableBody.appendChild(tableRow);
+            }
+        }
+    </script>
+</body>
+</html>
